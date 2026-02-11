@@ -9,8 +9,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="NOSTALGIA">
-<title>NOSTALGIA ♔</title>
+<meta name="apple-mobile-web-app-title" content="HA-NASSIM">
+<title>HA-NASSIM ♔</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
@@ -230,7 +230,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <div style="position:relative;z-index:1;max-width:800px;margin:0 auto;padding:3rem 1.5rem 2rem;">
 
   <header style="text-align:center;margin-bottom:3.5rem;" class="fade-up">
-    <div class="title-glow">NOSTALGIA &nbsp; ♔</div>
+    <div class="title-glow">HA-NASSIM &nbsp; ♔</div>
     <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(239,68,68,0.3),transparent);margin:1.5rem auto;width:40%;"></div>
   </header>
 
@@ -239,8 +239,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <textarea id="textInput" rows="2" placeholder="Type your text here..."></textarea>
     <div style="display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;">
       <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;">Limit</span>
-      <button class="pill-btn active" onclick="setLimit(118,this)">118</button>
-      <button class="pill-btn" onclick="setLimit(135,this)">135</button>
+      <button class="pill-btn active" onclick="setLimit(128,this)">128</button>
+      <button class="pill-btn" onclick="setLimit(238,this)">238</button>
       <span id="charCount" style="margin-left:auto;font-size:0.65rem;color:rgba(255,255,255,0.2);">0 chars</span>
     </div>
   </div>
@@ -347,7 +347,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 </div>
 
 <script>
-let charLimit=118,gradMode='ltr',useThird=false,gradSteps=12,_unlocked=false;
+let charLimit=128,gradMode='ltr',useThird=false,gradSteps=12,_unlocked=false;
 
 function handleGenClick(){
   if(_unlocked){generate();return;}
@@ -518,23 +518,62 @@ function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(
 function generate(){
   const text=document.getElementById('textInput').value.trim();
   if(!text){return;}
+  
   const baseColors=getColors(gradSteps);
   const colors=applyMode(baseColors,gradMode);
-  const fullCode=buildCode(text,colors);
-  const msgs=splitCode(fullCode,charLimit);
-  window._msgs=msgs;
-
-  document.getElementById('previewArea').innerHTML=renderPreview(fullCode);
-
+  
+  const available=charLimit-4;
+  
+  let optimalSteps=colors.length;
+  
+  for(let numColors=colors.length; numColors>=2; numColors--){
+    const tagsCost=numColors*9;
+    const textSpace=available-tagsCost;
+    
+    if(textSpace>=text.length){
+      optimalSteps=numColors;
+      break;
+    }
+  }
+  
+  const selectedColors=[];
+  if(optimalSteps<colors.length){
+    const step=colors.length/(optimalSteps-1||1);
+    for(let i=0;i<optimalSteps;i++){
+      selectedColors.push(colors[Math.round(i*step)%colors.length]);
+    }
+  }else{
+    selectedColors.push(...colors);
+  }
+  
+  const charsPerColor=Math.floor(text.length/selectedColors.length);
+  const remainder=text.length%selectedColors.length;
+  
+  let code='';
+  let pos=0;
+  
+  selectedColors.forEach((color,idx)=>{
+    let count=charsPerColor;
+    if(idx<remainder)count++;
+    if(pos<text.length){
+      const chunk=text.substring(pos,pos+count);
+      code+=`<c${color}>${chunk}`;
+      pos+=count;
+    }
+  });
+  code+='</c>';
+  
+  window._msgs=[code];
+  
+  document.getElementById('previewArea').innerHTML=renderPreview(code);
+  
   const con=document.getElementById('msgsContainer');
   con.innerHTML='';
-  msgs.forEach((msg,idx)=>{
-    const d=document.createElement('div');
-    d.className='msg-item';
-    d.innerHTML=`<div class="msg-header"><span class="msg-num">Message ${idx+1} / ${msgs.length}</span><span class="msg-chars">${msg.length} chars</span></div><div class="msg-code">${escHtml(msg)}</div>`;
-    con.appendChild(d);
-  });
-
+  const d=document.createElement('div');
+  d.className='msg-item';
+  d.innerHTML=`<div class="msg-header"><span class="msg-num">Single Message</span><span class="msg-chars">${code.length} / ${charLimit} chars</span></div><div class="msg-code">${escHtml(code)}</div>`;
+  con.appendChild(d);
+  
   document.getElementById('outputSection').style.display='block';
   document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
 }
