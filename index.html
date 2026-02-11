@@ -353,7 +353,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <div id="visitorPanel" style="display:none;margin-top:10px;animation:fadeUp 0.4s ease-out forwards;">
       <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(239,68,68,0.2);border-radius:2px;padding:8px 18px;">
         <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;">Visitors</span>
-        <img id="visitorBadge" src="" alt="" style="height:18px;border-radius:2px;opacity:0;transition:opacity 0.4s;">
+        <img id="visitorBadge" alt="" style="height:18px;border-radius:2px;">
       </div>
     </div>
   </div>
@@ -600,19 +600,14 @@ document.addEventListener('mousemove',(e)=>{
 initPresets();
 updateBar();
 
+const _badge=document.getElementById('visitorBadge');
+_badge.src='https://visitor-badge.laobi.icu/badge?page_id=nostalgia-nassim.nostalgia&left_color=%23111&right_color=%23dc2626&left_text=visitors';
+
 let _visitorShown=false;
 function toggleVisitors(){
   const panel=document.getElementById('visitorPanel');
-  const badge=document.getElementById('visitorBadge');
-  if(!_visitorShown){
-    panel.style.display='block';
-    badge.src='https://visitor-badge.laobi.icu/badge?page_id=nostalgia-nassim.nostalgia&left_color=%23111&right_color=%23dc2626&left_text=visitors';
-    badge.onload=()=>{badge.style.opacity='1';};
-    _visitorShown=true;
-  }else{
-    panel.style.display='none';
-    _visitorShown=false;
-  }
+  _visitorShown=!_visitorShown;
+  panel.style.display=_visitorShown?'block':'none';
 }
 </script>
 </body>
