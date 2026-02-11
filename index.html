@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NOSTALGIA ♔</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;}
+html,body{width:100%;overflow-x:hidden;scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;}
+
+.premium-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at top,#0d0004 0%,#000 60%);}
+.premium-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 25%,rgba(220,38,38,0.07) 0%,transparent 45%),radial-gradient(circle at 75% 75%,rgba(236,72,153,0.05) 0%,transparent 45%);animation:bgPulse 18s ease-in-out infinite;}
+.luxury-grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(239,68,68,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.025) 1px,transparent 1px);background-size:80px 80px;}
+.mouse-glow{position:fixed;inset:0;pointer-events:none;z-index:0;transition:background 0.3s;}
+
+@keyframes bgPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+
+.fade-up{animation:fadeUp 0.7s ease-out forwards;}
+
+.title-glow{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,3.5rem);
+  font-weight:900;
+  background:linear-gradient(135deg,#fff 0%,#f87171 40%,#fbbf24 70%,#fff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 6s linear infinite;
+  letter-spacing:0.05em;
+}
+
+.section-label{
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;
+}
+.section-label::before,.section-label::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(239,68,68,0.4));}
+.section-label::after{background:linear-gradient(270deg,transparent,rgba(239,68,68,0.4));}
+.section-label span{font-size:0.65rem;font-weight:700;letter-spacing:0.25em;color:rgba(239,68,68,0.8);text-transform:uppercase;white-space:nowrap;}
+
+.glass-card{
+  background:rgba(10,10,10,0.9);
+  border:1px solid rgba(239,68,68,0.12);
+  border-radius:2px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s;
+}
+.glass-card:hover{border-color:rgba(239,68,68,0.25);}
+.glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(239,68,68,0.4),transparent);}
+
+.field-label{font-size:0.6rem;font-weight:700;letter-spacing:0.25em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:8px;display:block;}
+
+textarea,input[type=text]{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:0.95rem;
+  border-radius:2px;
+  transition:border-color 0.2s,background 0.2s;
+  width:100%;
+  padding:12px 14px;
+  resize:none;
+}
+textarea:focus,input[type=text]:focus{outline:none;border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.03);}
+textarea::placeholder,input[type=text]::placeholder{color:rgba(255,255,255,0.12);}
+
+.pill-btn{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:2px;
+  padding:6px 18px;
+  color:rgba(255,255,255,0.5);
+  font-family:'Inter',sans-serif;
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.pill-btn:hover{border-color:rgba(239,68,68,0.4);color:#fff;}
+.pill-btn.active{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.6);color:#f87171;}
+
+.color-row{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:2px;
+  padding:8px 12px;
+}
+input[type=color]{width:32px;height:32px;border:none;border-radius:2px;cursor:pointer;background:none;padding:0;flex-shrink:0;}
+.hex-field{background:none;border:none;color:rgba(255,255,255,0.7);font-family:'Inter',monospace;font-size:0.8rem;letter-spacing:0.1em;width:100%;text-align:right;}
+.hex-field:focus{outline:none;color:#fff;}
+
+.toggle-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;}
+.toggle{width:38px;height:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;position:relative;transition:all 0.3s;flex-shrink:0;}
+.toggle.on{background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.5);}
+.toggle::after{content:'';position:absolute;width:14px;height:14px;background:rgba(255,255,255,0.25);border-radius:50%;top:2px;left:2px;transition:all 0.3s;}
+.toggle.on::after{transform:translateX(18px);background:#f87171;}
+.toggle-text{font-size:0.7rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;}
+
+.mode-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+@media(min-width:500px){.mode-grid{grid-template-columns:repeat(4,1fr);}}
+
+.mode-card{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:2px;
+  padding:12px 8px;
+  cursor:pointer;
+  text-align:center;
+  transition:all 0.2s;
+}
+.mode-card:hover{border-color:rgba(239,68,68,0.3);}
+.mode-card.active{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.5);}
+.mode-icon{font-size:1.1rem;display:block;margin-bottom:4px;}
+.mode-text{font-size:0.6rem;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;}
+.mode-card.active .mode-text{color:rgba(239,68,68,0.8);}
+
+input[type=range]{-webkit-appearance:none;width:100%;height:2px;background:rgba(255,255,255,0.08);border-radius:1px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:#dc2626;border-radius:50%;cursor:pointer;}
+
+.gen-btn{
+  width:100%;
+  background:rgba(239,68,68,0.08);
+  border:1px solid rgba(239,68,68,0.3);
+  border-radius:2px;
+  padding:16px;
+  color:rgba(239,68,68,0.9);
+  font-family:'Inter',sans-serif;
+  font-size:0.75rem;
+  font-weight:800;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.gen-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,0.15),rgba(236,72,153,0.1));opacity:0;transition:opacity 0.3s;}
+.gen-btn:hover{border-color:rgba(239,68,68,0.7);color:#f87171;}
+.gen-btn:hover::before{opacity:1;}
+.gen-btn:active{transform:scale(0.995);}
+
+.grad-bar{height:3px;border-radius:1px;transition:background 0.4s;margin-bottom:20px;}
+
+.preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;}
+@media(min-width:500px){.preset-grid{grid-template-columns:repeat(8,1fr);}}
+.preset-swatch{height:28px;border-radius:2px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s;}
+.preset-swatch:hover{border-color:rgba(239,68,68,0.5);transform:scaleY(1.1);}
+
+.preview-box{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:2px;
+  padding:16px;
+  min-height:50px;
+  font-size:1rem;
+  word-break:break-all;
+  line-height:1.9;
+  margin-bottom:12px;
+}
+
+.msg-item{
+  background:rgba(255,255,255,0.015);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:2px;
+  padding:14px;
+  margin-bottom:8px;
+  transition:border-color 0.2s;
+}
+.msg-item:hover{border-color:rgba(239,68,68,0.2);}
+.msg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.msg-num{font-size:0.6rem;font-weight:700;letter-spacing:0.2em;color:rgba(239,68,68,0.6);text-transform:uppercase;}
+.msg-chars{font-size:0.6rem;color:rgba(255,255,255,0.2);}
+.msg-code{
+  font-family:monospace;font-size:0.72rem;color:rgba(180,230,180,0.9);
+  word-break:break-all;line-height:1.7;
+  background:rgba(0,0,0,0.4);padding:10px 12px;border-radius:2px;
+  margin-bottom:8px;cursor:pointer;
+  border:1px solid transparent;transition:border-color 0.2s;
+  direction:ltr;text-align:left;
+}
+.msg-code:hover{border-color:rgba(239,68,68,0.2);}
+
+.copy-btn{
+  background:rgba(239,68,68,0.06);
+  border:1px solid rgba(239,68,68,0.2);
+  border-radius:2px;
+  padding:5px 14px;
+  color:rgba(239,68,68,0.7);
+  font-family:'Inter',sans-serif;
+  font-size:0.65rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  cursor:pointer;
+  transition:all 0.2s;
+  text-transform:uppercase;
+}
+.copy-btn:hover{background:rgba(239,68,68,0.12);color:#f87171;}
+.copy-btn.done{color:rgba(74,222,128,0.8);border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.06);}
+
+.copy-all{
+  width:100%;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);
+  border-radius:2px;padding:12px;color:rgba(255,255,255,0.3);
+  font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;
+  cursor:pointer;transition:all 0.2s;text-transform:uppercase;margin-bottom:12px;
+}
+.copy-all:hover{border-color:rgba(239,68,68,0.3);color:rgba(239,68,68,0.7);}
+</style>
+</head>
+<body>
+<div class="premium-bg"></div>
+<div class="luxury-grid"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<div style="position:relative;z-index:1;max-width:800px;margin:0 auto;padding:3rem 1.5rem 2rem;">
+
+  <header style="text-align:center;margin-bottom:3.5rem;" class="fade-up">
+    <div class="title-glow">NOSTALGIA &nbsp; ♔</div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(239,68,68,0.3),transparent);margin:1.5rem auto;width:40%;"></div>
+  </header>
+
+  <div class="glass-card fade-up" style="padding:24px;margin-bottom:16px;animation-delay:0.1s;">
+    <div class="section-label"><span>Input</span></div>
+    <textarea id="textInput" rows="2" placeholder="Type your text here..."></textarea>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;">
+      <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;">Limit</span>
+      <button class="pill-btn active" onclick="setLimit(118,this)">118</button>
+      <button class="pill-btn" onclick="setLimit(135,this)">135</button>
+      <span id="charCount" style="margin-left:auto;font-size:0.65rem;color:rgba(255,255,255,0.2);">0 chars</span>
+    </div>
+  </div>
+
+  <div class="glass-card fade-up" style="padding:24px;margin-bottom:16px;animation-delay:0.2s;">
+    <div class="section-label"><span>Colors</span></div>
+
+    <div class="preset-grid" id="presetsGrid"></div>
+
+    <div class="grad-bar" id="gradBar"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+      <div>
+        <span class="field-label">Start</span>
+        <div class="color-row">
+          <input type="color" id="color1" value="#DC2626" oninput="syncHex(1)">
+          <input class="hex-field" id="hex1" value="DC2626" maxlength="6" oninput="syncColor(1)">
+        </div>
+      </div>
+      <div>
+        <span class="field-label">End</span>
+        <div class="color-row">
+          <input type="color" id="color2" value="#7C3AED" oninput="syncHex(2)">
+          <input class="hex-field" id="hex2" value="7C3AED" maxlength="6" oninput="syncColor(2)">
+        </div>
+      </div>
+    </div>
+
+    <div class="toggle-wrap" onclick="toggleThird()">
+      <div class="toggle" id="thirdToggle"></div>
+      <span class="toggle-text" style="letter-spacing:0.12em;">Add middle color</span>
+    </div>
+
+    <div id="thirdRow" style="display:none;margin-top:12px;">
+      <span class="field-label">Middle</span>
+      <div class="color-row">
+        <input type="color" id="color3" value="#E879F9" oninput="syncHex(3)">
+        <input class="hex-field" id="hex3" value="E879F9" maxlength="6" oninput="syncColor(3)">
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card fade-up" style="padding:24px;margin-bottom:16px;animation-delay:0.3s;">
+    <div class="section-label"><span>Gradient Mode</span></div>
+    <div class="mode-grid" style="margin-bottom:20px;">
+      <div class="mode-card active" onclick="setMode('ltr',this)">
+        <span class="mode-icon">→</span>
+        <span class="mode-text">Left → Right</span>
+      </div>
+      <div class="mode-card" onclick="setMode('rtl',this)">
+        <span class="mode-icon">←</span>
+        <span class="mode-text">Right → Left</span>
+      </div>
+      <div class="mode-card" onclick="setMode('center-out',this)">
+        <span class="mode-icon">◈</span>
+        <span class="mode-text">Center Light</span>
+      </div>
+      <div class="mode-card" onclick="setMode('edges-in',this)">
+        <span class="mode-icon">◉</span>
+        <span class="mode-text">Edges Light</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.2em;color:rgba(255,255,255,0.2);text-transform:uppercase;white-space:nowrap;">Steps</span>
+      <input type="range" id="stepsRange" min="2" max="12" value="12" oninput="updateSteps()">
+      <span id="stepsVal" style="font-size:0.8rem;font-weight:800;color:#dc2626;min-width:20px;text-align:center;">12</span>
+    </div>
+  </div>
+
+  <div id="genArea" style="margin-bottom:24px;animation-delay:0.4s;" class="fade-up">
+    <button class="gen-btn" id="genBtn" onclick="handleGenClick()">
+      ✦ &nbsp; Generate &nbsp; ✦
+    </button>
+    <div id="passArea" style="display:none;position:relative;">
+      <input type="password" id="passInput" placeholder="Enter password..." autocomplete="off"
+        style="width:100%;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.3);border-radius:2px;padding:16px;color:#fff;font-family:'Inter',sans-serif;font-size:0.85rem;letter-spacing:0.2em;text-align:center;outline:none;"
+        oninput="checkPass(this.value)">
+      <span id="passHint" style="display:block;text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.15);letter-spacing:0.2em;margin-top:8px;text-transform:uppercase;"></span>
+    </div>
+  </div>
+
+  <div id="outputSection" style="display:none;">
+    <div class="glass-card" style="padding:24px;margin-bottom:16px;">
+      <div class="section-label"><span>Preview</span></div>
+      <div class="preview-box" id="previewArea"></div>
+      <button class="copy-all" onclick="copyAll()">⧉ &nbsp; Copy All Messages</button>
+      <div id="msgsContainer"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:1.5rem 0 0;">
+    <a href="https://discord.com/users/nassim915" target="_blank" style="display:inline-flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.04.03.052a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" fill="rgba(255,255,255,0.2)"/>
+      </svg>
+      <span style="font-size:0.55rem;font-weight:700;letter-spacing:0.25em;color:rgba(255,255,255,0.15);text-transform:uppercase;">Discord</span>
+    </a>
+  </div>
+
+  <footer style="text-align:center;padding:1rem 0 1rem;border-top:1px solid rgba(255,255,255,0.04);margin-top:1rem;">
+    <p style="font-size:0.6rem;font-weight:600;letter-spacing:0.3em;color:rgba(255,255,255,0.15);text-transform:uppercase;">Created by &nbsp;·&nbsp; Elhamdi Nassim</p>
+  </footer>
+
+</div>
+
+<script>
+let charLimit=118,gradMode='ltr',useThird=false,gradSteps=12,_unlocked=false;
+
+function handleGenClick(){
+  if(_unlocked){generate();return;}
+  document.getElementById('genBtn').style.display='none';
+  document.getElementById('passArea').style.display='block';
+  setTimeout(()=>document.getElementById('passInput').focus(),50);
+}
+
+function checkPass(val){
+  if(val==='nassim1'){
+    _unlocked=true;
+    document.getElementById('passArea').style.display='none';
+    document.getElementById('genBtn').style.display='block';
+    generate();
+  }else if(val.length>=7){
+    document.getElementById('passHint').textContent='✗  Invalid';
+    document.getElementById('passInput').style.borderColor='rgba(239,68,68,0.8)';
+    setTimeout(()=>{
+      document.getElementById('passInput').value='';
+      document.getElementById('passHint').textContent='';
+      document.getElementById('passInput').style.borderColor='rgba(239,68,68,0.3)';
+    },700);
+  }
+}
+
+const presets=[
+  {c1:'FFE87C',c2:'8B5E00'},{c1:'E6D5F5',c2:'570F87'},
+  {c1:'99D6E5',c2:'005777'},{c1:'FFE66D',c2:'DC143C'},
+  {c1:'CCE6CC',c2:'003600'},{c1:'FFCDD2',c2:'801D1F'},
+  {c1:'BA6BDF',c2:'0A1E3A'},{c1:'FFE0B2',c2:'8B3A00'},
+];
+
+function initPresets(){
+  const g=document.getElementById('presetsGrid');
+  g.innerHTML=presets.map((p,i)=>`<div class="preset-swatch" style="background:linear-gradient(90deg,#${p.c1},#${p.c2})" onclick="applyPreset(${i})" title="Preset ${i+1}"></div>`).join('');
+}
+
+function applyPreset(i){
+  const p=presets[i];
+  document.getElementById('color1').value='#'+p.c1;
+  document.getElementById('hex1').value=p.c1;
+  document.getElementById('color2').value='#'+p.c2;
+  document.getElementById('hex2').value=p.c2;
+  updateBar();
+}
+
+function setLimit(n,btn){
+  charLimit=n;
+  document.querySelectorAll('.pill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setMode(m,btn){
+  gradMode=m;
+  document.querySelectorAll('.mode-card').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function updateSteps(){
+  gradSteps=parseInt(document.getElementById('stepsRange').value);
+  document.getElementById('stepsVal').textContent=gradSteps;
+}
+
+function syncHex(n){
+  const v=document.getElementById('color'+n).value;
+  document.getElementById('hex'+n).value=v.substring(1).toUpperCase();
+  updateBar();
+}
+
+function syncColor(n){
+  const h=document.getElementById('hex'+n).value;
+  if(h.length===6){document.getElementById('color'+n).value='#'+h;updateBar();}
+}
+
+function toggleThird(){
+  useThird=!useThird;
+  document.getElementById('thirdToggle').classList.toggle('on',useThird);
+  document.getElementById('thirdRow').style.display=useThird?'block':'none';
+  updateBar();
+}
+
+function updateBar(){
+  const c1=document.getElementById('hex1').value;
+  const c2=document.getElementById('hex2').value;
+  const c3=document.getElementById('hex3').value;
+  document.getElementById('gradBar').style.background=useThird
+    ?`linear-gradient(90deg,#${c1},#${c3},#${c2})`
+    :`linear-gradient(90deg,#${c1},#${c2})`;
+}
+
+function hexToRgb(h){return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function lerp(a,b,t){return Math.round(a+(b-a)*t);}
+function toHex(r,g,b){return[r,g,b].map(v=>v.toString(16).padStart(2,'0').toUpperCase()).join('');}
+
+function getColors(steps){
+  const c1=document.getElementById('hex1').value.toUpperCase();
+  const c2=document.getElementById('hex2').value.toUpperCase();
+  const c3=useThird?document.getElementById('hex3').value.toUpperCase():null;
+  const out=[];
+  if(c3){
+    const h=Math.floor(steps/2);
+    for(let i=0;i<=h;i++){const t=i/h;const[r1,g1,b1]=hexToRgb(c1);const[r3,g3,b3]=hexToRgb(c3);out.push(toHex(lerp(r1,r3,t),lerp(g1,g3,t),lerp(b1,b3,t)));}
+    for(let i=1;i<steps-h;i++){const t=i/(steps-h-1||1);const[r3,g3,b3]=hexToRgb(c3);const[r2,g2,b2]=hexToRgb(c2);out.push(toHex(lerp(r3,r2,t),lerp(g3,g2,t),lerp(b3,b2,t)));}
+  }else{
+    for(let i=0;i<steps;i++){const t=i/(steps-1||1);const[r1,g1,b1]=hexToRgb(c1);const[r2,g2,b2]=hexToRgb(c2);out.push(toHex(lerp(r1,r2,t),lerp(g1,g2,t),lerp(b1,b2,t)));}
+  }
+  return out;
+}
+
+function applyMode(colors,mode){
+  const n=colors.length;
+  if(mode==='rtl')return[...colors].reverse();
+  if(mode==='center-out'){const h=colors.slice(0,Math.ceil(n/2));const rv=[...h].reverse();return[...rv,...(n%2===0?h:h.slice(1))];}
+  if(mode==='edges-in'){const h=colors.slice(0,Math.ceil(n/2));const rv=[...h].reverse();return[...h,...(n%2===0?rv:rv.slice(0,-1))];}
+  return colors;
+}
+
+function buildCode(text,colors){
+  const n=colors.length;
+  let code='';
+  let i=0;
+  while(i<text.length){
+    const ci=Math.min(Math.floor((i/text.length)*n),n-1);
+    let j=i+1;
+    while(j<text.length){if(Math.min(Math.floor((j/text.length)*n),n-1)!==ci)break;j++;}
+    code+=`<c${colors[ci]}>${text.substring(i,j)}`;
+    i=j;
+  }
+  return code+'</c>';
+}
+
+function splitCode(code,limit){
+  const segs=[];
+  const re=/<c([0-9A-Fa-f]{6})>([^<]*)/g;
+  let m;
+  while((m=re.exec(code))!==null){if(m[2].length>0)segs.push({color:m[1],text:m[2]});}
+  const msgs=[];
+  let cur='';
+  for(let s=0;s<segs.length;s++){
+    const seg=segs[s];
+    const tag=`<c${seg.color}>`;
+    if((cur+tag+seg.text+'</c>').length<=limit){
+      cur+=tag+seg.text;
+    }else{
+      let added=false;
+      for(let ci=seg.text.length-1;ci>=1;ci--){
+        if((cur+tag+seg.text.substring(0,ci)+'</c>').length<=limit){
+          cur+=tag+seg.text.substring(0,ci);
+          msgs.push(cur+'</c>');
+          cur=tag+seg.text.substring(ci);
+          added=true;
+          break;
+        }
+      }
+      if(!added){if(cur.length>0)msgs.push(cur+'</c>');cur=tag+seg.text;}
+    }
+  }
+  if(cur.length>0)msgs.push(cur+'</c>');
+  return msgs;
+}
+
+function renderPreview(code){
+  return code.replace(/<c([0-9A-Fa-f]{6})>/g,'<span style="color:#$1">').replace(/<\/c>/g,'</span>');
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function generate(){
+  const text=document.getElementById('textInput').value.trim();
+  if(!text){return;}
+  const baseColors=getColors(gradSteps);
+  const colors=applyMode(baseColors,gradMode);
+  const fullCode=buildCode(text,colors);
+  const msgs=splitCode(fullCode,charLimit);
+  window._msgs=msgs;
+
+  document.getElementById('previewArea').innerHTML=renderPreview(fullCode);
+
+  const con=document.getElementById('msgsContainer');
+  con.innerHTML='';
+  msgs.forEach((msg,idx)=>{
+    const d=document.createElement('div');
+    d.className='msg-item';
+    d.innerHTML=`<div class="msg-header"><span class="msg-num">Message ${idx+1} / ${msgs.length}</span><span class="msg-chars">${msg.length} chars</span></div><div class="msg-code">${escHtml(msg)}</div>`;
+    con.appendChild(d);
+  });
+
+  document.getElementById('outputSection').style.display='block';
+  document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
+}
+
+function copyMsg(idx){
+  navigator.clipboard.writeText(window._msgs[idx]).then(()=>{
+    const btn=document.getElementById('cbtn'+idx);
+    if(btn){btn.textContent='✓ Copied';btn.classList.add('done');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},1500);}
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=window._msgs[idx];
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn=document.getElementById('cbtn'+idx);
+    if(btn){btn.textContent='✓ Copied';btn.classList.add('done');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},1500);}
+  });
+}
+
+function copyAll(){
+  const all=window._msgs.join('\n');
+  navigator.clipboard.writeText(all).then(()=>{
+    const btn=document.querySelector('.copy-all');
+    btn.textContent='✓ All Copied';
+    setTimeout(()=>{btn.innerHTML='⧉ &nbsp; Copy All Messages';},2000);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=all;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn=document.querySelector('.copy-all');
+    btn.textContent='✓ All Copied';
+    setTimeout(()=>{btn.innerHTML='⧉ &nbsp; Copy All Messages';},2000);
+  });
+}
+
+document.getElementById('textInput').addEventListener('input',function(){
+  document.getElementById('charCount').textContent=this.value.length+' chars';
+});
+
+document.addEventListener('mousemove',(e)=>{
+  document.getElementById('mouseGlow').style.background=`radial-gradient(circle 500px at ${e.clientX}px ${e.clientY}px,rgba(220,38,38,0.05),transparent 45%)`;
+});
+
+initPresets();
+updateBar();
+</script>
+</body>
+</html>
