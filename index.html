@@ -274,6 +274,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
       <span class="toggle-text" style="letter-spacing:0.12em;">Add middle color</span>
     </div>
 
+    <div class="toggle-wrap" onclick="toggleSingleColor()" style="margin-top:12px;">
+      <div class="toggle" id="singleToggle"></div>
+      <span class="toggle-text" style="letter-spacing:0.12em;">Single color mode</span>
+    </div>
+
     <div id="thirdRow" style="display:none;margin-top:12px;">
       <span class="field-label">Middle</span>
       <div class="color-row">
@@ -347,7 +352,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 </div>
 
 <script>
-let charLimit=128,gradMode='ltr',useThird=false,gradSteps=12,_unlocked=false;
+let charLimit=128,gradMode='ltr',useThird=false,useSingle=false,gradSteps=12,_unlocked=false;
 
 function handleGenClick(){
   if(_unlocked){generate();return;}
@@ -429,121 +434,42 @@ function toggleThird(){
   updateBar();
 }
 
+function toggleSingleColor(){
+  useSingle=!useSingle;
+  document.getElementById('singleToggle').classList.toggle('on',useSingle);
+  updateBar();
+}
+
 function updateBar(){
   const c1=document.getElementById('hex1').value;
   const c2=document.getElementById('hex2').value;
   const c3=document.getElementById('hex3').value;
-  document.getElementById('gradBar').style.background=useThird
-    ?`linear-gradient(90deg,#${c1},#${c3},#${c2})`
-    :`linear-gradient(90deg,#${c1},#${c2})`;
+  if(useSingle){
+    document.getElementById('gradBar').style.background=`#${c1}`;
+  }else if(useThird){
+    document.getElementById('gradBar').style.background=`linear-gradient(90deg,#${c1},#${c3},#${c2})`;
+  }else{
+    document.getElementById('gradBar').style.background=`linear-gradient(90deg,#${c1},#${c2})`;
+  }
 }
 
 function hexToRgb(h){return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
-
-function rgbToHsl(r,g,b){
-  r/=255;g/=255;b/=255;
-  const max=Math.max(r,g,b),min=Math.min(r,g,b);
-  let h,s,l=(max+min)/2;
-  if(max===min){h=s=0;}
-  else{
-    const d=max-min;
-    s=l>0.5?d/(2-max-min):d/(max+min);
-    switch(max){
-      case r:h=((g-b)/d+(g<b?6:0))/6;break;
-      case g:h=((b-r)/d+2)/6;break;
-      case b:h=((r-g)/d+4)/6;break;
-    }
-  }
-  return[h*360,s*100,l*100];
-}
-
-function hslToRgb(h,s,l){
-  h/=360;s/=100;l/=100;
-  let r,g,b;
-  if(s===0){r=g=b=l;}
-  else{
-    const hue2rgb=(p,q,t)=>{
-      if(t<0)t+=1;if(t>1)t-=1;
-      if(t<1/6)return p+(q-p)*6*t;
-      if(t<1/2)return q;
-      if(t<2/3)return p+(q-p)*(2/3-t)*6;
-      return p;
-    };
-    const q=l<0.5?l*(1+s):l+s-l*s;
-    const p=2*l-q;
-    r=hue2rgb(p,q,h+1/3);
-    g=hue2rgb(p,q,h);
-    b=hue2rgb(p,q,h-1/3);
-  }
-  return[Math.round(r*255),Math.round(g*255),Math.round(b*255)];
-}
-
-function toHex(r,g,b){return[r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0').toUpperCase()).join('');}
-
-function smartGradient(hex1,hex2,hex3,steps){
-  const [r1,g1,b1]=hexToRgb(hex1);
-  const [r2,g2,b2]=hexToRgb(hex2);
-  const [h1,s1,l1]=rgbToHsl(r1,g1,b1);
-  const [h2,s2,l2]=rgbToHsl(r2,g2,b2);
-  
-  let hDiff=h2-h1;
-  if(Math.abs(hDiff)>180){
-    hDiff=hDiff>0?hDiff-360:hDiff+360;
-  }
-  
-  const out=[];
-  
-  if(hex3){
-    const [r3,g3,b3]=hexToRgb(hex3);
-    const [h3,s3,l3]=rgbToHsl(r3,g3,b3);
-    
-    let hDiff13=h3-h1;
-    if(Math.abs(hDiff13)>180)hDiff13=hDiff13>0?hDiff13-360:hDiff13+360;
-    
-    let hDiff32=h2-h3;
-    if(Math.abs(hDiff32)>180)hDiff32=hDiff32>0?hDiff32-360:hDiff32+360;
-    
-    const half=Math.floor(steps/2);
-    
-    for(let i=0;i<=half;i++){
-      const t=i/half;
-      const eased=t*t*(3-2*t);
-      const h=(h1+hDiff13*eased+360)%360;
-      const s=s1+(s3-s1)*eased;
-      const l=l1+(l3-l1)*eased;
-      const [r,g,b]=hslToRgb(h,s,l);
-      out.push(toHex(r,g,b));
-    }
-    
-    for(let i=1;i<steps-half;i++){
-      const t=i/(steps-half-1||1);
-      const eased=t*t*(3-2*t);
-      const h=(h3+hDiff32*eased+360)%360;
-      const s=s3+(s2-s3)*eased;
-      const l=l3+(l2-l3)*eased;
-      const [r,g,b]=hslToRgb(h,s,l);
-      out.push(toHex(r,g,b));
-    }
-  }else{
-    for(let i=0;i<steps;i++){
-      const t=i/(steps-1||1);
-      const eased=t*t*(3-2*t);
-      const h=(h1+hDiff*eased+360)%360;
-      const s=s1+(s2-s1)*eased;
-      const l=l1+(l2-l1)*eased;
-      const [r,g,b]=hslToRgb(h,s,l);
-      out.push(toHex(r,g,b));
-    }
-  }
-  
-  return out;
-}
+function lerp(a,b,t){return Math.round(a+(b-a)*t);}
+function toHex(r,g,b){return[r,g,b].map(v=>v.toString(16).padStart(2,'0').toUpperCase()).join('');}
 
 function getColors(steps){
   const c1=document.getElementById('hex1').value.toUpperCase();
   const c2=document.getElementById('hex2').value.toUpperCase();
   const c3=useThird?document.getElementById('hex3').value.toUpperCase():null;
-  return smartGradient(c1,c2,c3,steps);
+  const out=[];
+  if(c3){
+    const h=Math.floor(steps/2);
+    for(let i=0;i<=h;i++){const t=i/h;const[r1,g1,b1]=hexToRgb(c1);const[r3,g3,b3]=hexToRgb(c3);out.push(toHex(lerp(r1,r3,t),lerp(g1,g3,t),lerp(b1,b3,t)));}
+    for(let i=1;i<steps-h;i++){const t=i/(steps-h-1||1);const[r3,g3,b3]=hexToRgb(c3);const[r2,g2,b2]=hexToRgb(c2);out.push(toHex(lerp(r3,r2,t),lerp(g3,g2,t),lerp(b3,b2,t)));}
+  }else{
+    for(let i=0;i<steps;i++){const t=i/(steps-1||1);const[r1,g1,b1]=hexToRgb(c1);const[r2,g2,b2]=hexToRgb(c2);out.push(toHex(lerp(r1,r2,t),lerp(g1,g2,t),lerp(b1,b2,t)));}
+  }
+  return out;
 }
 
 function applyMode(colors,mode){
@@ -608,41 +534,45 @@ function generate(){
   const text=document.getElementById('textInput').value.trim();
   if(!text){return;}
   
-  const baseColors=getColors(gradSteps);
-  const colors=applyMode(baseColors,gradMode);
-  
-  const available=charLimit-4;
-  
-  let bestColors=2;
-  let bestSpace=0;
-  
-  for(let n=2; n<=colors.length; n++){
-    const tagCost=n*9;
-    const spaceLeft=available-tagCost;
-    if(spaceLeft>=text.length){
-      bestColors=n;
-      bestSpace=spaceLeft;
-    }
-  }
-  
-  const selectedColors=[];
-  for(let i=0; i<bestColors; i++){
-    const idx=Math.round((i/(bestColors-1||1))*(colors.length-1));
-    selectedColors.push(colors[idx]);
-  }
-  
-  const charsPerColor=Math.ceil(text.length/selectedColors.length);
-  
   let code='';
-  let pos=0;
   
-  selectedColors.forEach(color=>{
-    if(pos>=text.length) return;
-    const chunk=text.substring(pos, Math.min(pos+charsPerColor, text.length));
-    code+=`<c${color}>${chunk}`;
-    pos+=chunk.length;
-  });
-  code+='</c>';
+  if(useSingle){
+    const c1=document.getElementById('hex1').value.toUpperCase();
+    code=`<c${c1}>${text}</c>`;
+  }else{
+    const baseColors=getColors(gradSteps);
+    const colors=applyMode(baseColors,gradMode);
+    
+    const available=charLimit-4;
+    
+    let bestColors=2;
+    
+    for(let n=2; n<=colors.length; n++){
+      const tagCost=n*9;
+      const spaceLeft=available-tagCost;
+      if(spaceLeft>=text.length){
+        bestColors=n;
+      }
+    }
+    
+    const selectedColors=[];
+    for(let i=0; i<bestColors; i++){
+      const idx=Math.round((i/(bestColors-1||1))*(colors.length-1));
+      selectedColors.push(colors[idx]);
+    }
+    
+    const charsPerColor=Math.ceil(text.length/selectedColors.length);
+    
+    let pos=0;
+    
+    selectedColors.forEach(color=>{
+      if(pos>=text.length) return;
+      const chunk=text.substring(pos, Math.min(pos+charsPerColor, text.length));
+      code+=`<c${color}>${chunk}`;
+      pos+=chunk.length;
+    });
+    code+='</c>';
+  }
   
   window._msgs=[code];
   
@@ -652,7 +582,8 @@ function generate(){
   con.innerHTML='';
   const d=document.createElement('div');
   d.className='msg-item';
-  d.innerHTML=`<div class="msg-header"><span class="msg-num">Single Message</span><span class="msg-chars">${code.length} / ${charLimit} chars</span></div><div class="msg-code">${escHtml(code)}</div>`;
+  const modeLabel=useSingle?'Single Color':'Single Message';
+  d.innerHTML=`<div class="msg-header"><span class="msg-num">${modeLabel}</span><span class="msg-chars">${code.length} / ${charLimit} chars</span></div><div class="msg-code">${escHtml(code)}</div>`;
   con.appendChild(d);
   
   document.getElementById('outputSection').style.display='block';
