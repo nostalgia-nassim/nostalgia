@@ -242,6 +242,14 @@ body.light-mode .sb-header{border-bottom-color:rgba(0,0,0,0.07);}
 .sb-body::-webkit-scrollbar-track{background:transparent;}
 .sb-body::-webkit-scrollbar-thumb{background:var(--t20);border-radius:2px;}
 
+/* Custom color card */
+.sb-card-custom{margin-top:5px;border-style:dashed;border-color:var(--t25);}
+.sb-card-custom:hover{border-style:solid;}
+.sb-card-custom .sb-card-name::after{
+  content:' ···';opacity:0.4;font-size:0.55rem;letter-spacing:0.05em;
+}
+.sb-card-custom.active{border-style:solid;}
+
 /* ─── Discord SVG ─── */
 #discordSvg path, #sidebarDiscordSvg path{fill:var(--text-muted);}
 .sb-footer a{display:flex;align-items:center;gap:8px;text-decoration:none;opacity:0.5;transition:opacity 0.2s;}
@@ -329,6 +337,98 @@ body.light-mode .sb-header{border-bottom-color:rgba(0,0,0,0.07);}
 .sb-footer{padding:14px 16px 18px;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;}
 body.light-mode .sb-footer{border-top-color:rgba(0,0,0,0.06);}
 .sb-footer-txt{font-size:0.5rem;font-weight:700;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;}
+
+/* ══════════════════════════════════════════════════════════
+   NEW FEATURES CSS
+   ══════════════════════════════════════════════════════════ */
+
+/* Live Preview */
+.live-preview-badge{position:absolute;top:12px;right:12px;background:hsla(var(--theme-hue),var(--theme-sat),50%,0.15);border:1px solid hsla(var(--theme-hue),var(--theme-sat),50%,0.3);border-radius:12px;padding:4px 10px;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;color:hsl(var(--theme-hue),var(--theme-sat),55%);text-transform:uppercase;animation:fadeIn 0.3s;}
+
+/* Gradient Library Panel */
+.grad-lib-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:linear-gradient(135deg,hsla(var(--theme-hue),var(--theme-sat),50%,0.2),hsla(var(--theme-hue),var(--theme-sat),45%,0.1));border:2px solid hsla(var(--theme-hue),var(--theme-sat),50%,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:900;transition:all 0.3s;box-shadow:0 4px 20px hsla(var(--theme-hue),var(--theme-sat),50%,0.3);}
+.grad-lib-btn:hover{transform:scale(1.1);box-shadow:0 6px 30px hsla(var(--theme-hue),var(--theme-sat),50%,0.5);}
+.grad-lib-btn svg{width:24px;height:24px;}
+
+.grad-lib-panel{position:fixed;top:0;right:-400px;width:380px;max-width:90vw;height:100vh;background:var(--bg-card);border-left:1px solid var(--border-primary);z-index:1001;transition:right 0.4s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;box-shadow:-10px 0 40px rgba(0,0,0,0.5);}
+.grad-lib-panel.open{right:0;}
+.grad-lib-header{position:sticky;top:0;background:var(--bg-card);border-bottom:1px solid var(--border-primary);padding:20px;z-index:10;}
+.grad-lib-title{font-size:1.2rem;font-weight:800;letter-spacing:0.1em;color:var(--text-primary);text-transform:uppercase;margin-bottom:12px;}
+.grad-lib-search{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:10px 12px;color:var(--text-primary);font-size:0.85rem;}
+.grad-lib-search:focus{outline:none;border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.4);}
+
+.grad-lib-grid{display:grid;grid-template-columns:1fr;gap:12px;padding:20px;}
+.grad-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:12px;cursor:pointer;transition:all 0.2s;}
+.grad-item:hover{border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.4);transform:translateX(-4px);}
+.grad-item-preview{height:60px;border-radius:4px;margin-bottom:10px;}
+.grad-item-name{font-size:0.85rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;}
+.grad-item-colors{font-size:0.7rem;color:var(--text-secondary);font-family:monospace;}
+
+/* History & Favorites Panel */
+.history-panel{position:fixed;top:0;left:-400px;width:380px;max-width:90vw;height:100vh;background:var(--bg-card);border-right:1px solid var(--border-primary);z-index:1001;transition:left 0.4s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;box-shadow:10px 0 40px rgba(0,0,0,0.5);}
+.history-panel.open{left:0;}
+.history-tabs{display:flex;border-bottom:1px solid var(--border-primary);}
+.history-tab{flex:1;padding:16px;text-align:center;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;}
+.history-tab.active{color:hsl(var(--theme-hue),var(--theme-sat),55%);border-bottom-color:hsl(var(--theme-hue),var(--theme-sat),55%);}
+.history-content{padding:20px;}
+.history-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;}
+.history-item:hover{border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.3);}
+.history-item-text{font-size:0.9rem;color:var(--text-primary);margin-bottom:8px;word-break:break-all;}
+.history-item-grad{height:4px;border-radius:2px;margin-bottom:8px;}
+.history-item-meta{display:flex;justify-content:space-between;font-size:0.65rem;color:var(--text-muted);}
+.history-empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:0.85rem;}
+
+
+/* Color Extraction */
+.extract-zone{border:2px dashed rgba(255,255,255,0.2);border-radius:8px;padding:30px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.extract-zone:hover{border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.4);background:rgba(255,255,255,0.02);}
+.extract-zone.active{border-color:hsl(var(--theme-hue),var(--theme-sat),55%);background:hsla(var(--theme-hue),var(--theme-sat),50%,0.05);}
+.extract-preview{width:100%;max-width:200px;height:120px;object-fit:cover;border-radius:6px;margin:12px auto;}
+.extract-colors{display:flex;gap:8px;justify-content:center;margin-top:12px;}
+.extract-color{width:40px;height:40px;border-radius:6px;cursor:pointer;transition:transform 0.2s;border:2px solid transparent;}
+.extract-color:hover{transform:scale(1.1);border-color:rgba(255,255,255,0.3);}
+
+/* Gradient Mixer */
+.mixer-container{display:grid;grid-template-columns:1fr 80px 1fr;gap:16px;align-items:center;margin-bottom:20px;}
+.mixer-grad{height:60px;border-radius:6px;border:2px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;}
+.mixer-grad:hover{border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.3);}
+.mixer-grad.selected{border-color:hsl(var(--theme-hue),var(--theme-sat),55%);}
+.mixer-icon{font-size:1.5rem;text-align:center;color:var(--text-muted);}
+.mixer-slider-wrap{margin-top:16px;}
+.mixer-result{height:80px;border-radius:8px;margin-top:16px;border:2px solid hsla(var(--theme-hue),var(--theme-sat),50%,0.3);}
+
+/* Animation Preview */
+.anim-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.anim-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:6px 14px;font-size:0.7rem;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
+.anim-btn:hover{border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.3);color:var(--text-primary);}
+.anim-btn.active{background:hsla(var(--theme-hue),var(--theme-sat),50%,0.15);border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.5);color:hsl(var(--theme-hue),var(--theme-sat),55%);}
+
+/* Additional Animations */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+@keyframes wave{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+@keyframes glow{0%,100%{filter:brightness(1) saturate(1);}50%{filter:brightness(1.3) saturate(1.5);}}
+@keyframes slide{0%{background-position:0% center;}100%{background-position:200% center;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* Mobile Optimizations */
+@media(max-width:768px){
+  .grad-lib-panel,.history-panel{width:100vw;max-width:100vw;}
+  .grad-lib-btn{bottom:80px;right:16px;width:50px;height:50px;}
+  .mixer-container{grid-template-columns:1fr;gap:12px;}
+  .mixer-icon{transform:rotate(90deg);}
+}
+
+/* Floating Action Buttons */
+.fab-group{position:fixed;bottom:24px;left:24px;display:flex;flex-direction:column;gap:12px;z-index:900;}
+.fab{width:48px;height:48px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border-primary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+.fab:hover{transform:scale(1.1);border-color:hsla(var(--theme-hue),var(--theme-sat),50%,0.4);}
+.fab svg{width:20px;height:20px;stroke:var(--text-primary);}
+
+/* Shortcuts Panel */
+.shortcuts-hint{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 16px;font-size:0.75rem;color:rgba(255,255,255,0.7);opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:1000;}
+.shortcuts-hint.show{opacity:1;}
+.kbd{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;padding:2px 6px;font-family:monospace;font-size:0.7rem;margin:0 2px;}
+
 </style>
 </head>
 <body>
@@ -357,6 +457,16 @@ body.light-mode .sb-footer{border-top-color:rgba(0,0,0,0.06);}
     <div>
       <div class="sb-label">Theme</div>
       <div class="sb-grid" id="themeGrid"></div>
+
+      <!-- Custom color row -->
+      <div class="sb-card sb-card-custom" id="tc-custom" onclick="triggerCustomPicker()">
+        <div class="sb-card-swatch" id="customSwatch" style="background:linear-gradient(135deg,#ff6b6b,#a855f7,#3b82f6);"></div>
+        <span class="sb-card-name">Custom</span>
+        <div class="sb-card-check"></div>
+        <input type="color" id="customColorInput" value="#a855f7"
+          style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;"
+          oninput="onCustomColor(this.value)" onchange="onCustomColor(this.value)">
+      </div>
     </div>
 
     <!-- MODE -->
@@ -589,6 +699,61 @@ function buildThemeGrid(){
   `).join('');
 }
 
+/* ── Helper: HEX to HSL ── */
+function hexToHSL(hex){
+  hex = hex.replace('#','');
+  const r = parseInt(hex.slice(0,2),16)/255;
+  const g = parseInt(hex.slice(2,4),16)/255;
+  const b = parseInt(hex.slice(4,6),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, l = (max+min)/2;
+  if(max===min){
+    h=s=0;
+  }else{
+    const d = max-min;
+    s = l>0.5 ? d/(2-max-min) : d/(max+min);
+    switch(max){
+      case r: h=((g-b)/d+(g<b?6:0))/6; break;
+      case g: h=((b-r)/d+2)/6; break;
+      case b: h=((r-g)/d+4)/6; break;
+    }
+  }
+  return [Math.round(h*360), Math.round(s*100), Math.round(l*100)];
+}
+
+/* ── Custom color picker ── */
+let _customHex = '#a855f7';
+
+function triggerCustomPicker(){
+  document.getElementById('customColorInput').click();
+}
+
+function onCustomColor(hex){
+  _customHex = hex;
+  // Update swatch to solid color
+  document.getElementById('customSwatch').style.background = hex;
+  // Mark active
+  currentThemeId = 'custom';
+  document.querySelectorAll('.sb-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('tc-custom').classList.add('active');
+  // Apply as theme
+  const [h,s,l] = hexToHSL(hex);
+  document.documentElement.style.setProperty('--theme-hue', h);
+  document.documentElement.style.setProperty('--theme-sat', s + '%');
+  // Update title: custom color + gold
+  const titleEl = document.getElementById('titleGlow');
+  titleEl.style.backgroundImage = `linear-gradient(135deg,#fff 0%,${hex} 38%,#fbbf24 65%,#fff 100%)`;
+  titleEl.style.backgroundSize = '200% auto';
+  titleEl.style.webkitBackgroundClip = 'text';
+  titleEl.style.backgroundClip = 'text';
+  titleEl.style.webkitTextFillColor = 'transparent';
+  // Update SVG icons
+  const moonColor = `hsl(${h},${s}%,58%)`;
+  const sunColor  = `hsl(${h},${s}%,52%)`;
+  document.querySelectorAll('#moonSvg path').forEach(el => el.setAttribute('stroke', moonColor));
+  document.querySelectorAll('#sunSvg circle,#sunSvg line').forEach(el => el.setAttribute('stroke', sunColor));
+}
+
 /* ── Apply theme ── */
 function applyTheme(id){
   const t = THEMES.find(x => x.id === id);
@@ -786,6 +951,756 @@ initPresets();
 updateBar();
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+
+/* ══════════════════════════════════════════════════════════
+   GRADIENT LIBRARY - 50 Professional Gradients
+   ══════════════════════════════════════════════════════════ */
+const GRADIENT_LIBRARY = [
+  {id:'fire',name:'Fire Storm',c1:'FF4E50',c2:'F9D423'},
+  {id:'ocean',name:'Ocean Depth',c1:'2E3192',c2:'1BFFFF'},
+  {id:'sunset',name:'Sunset Blaze',c1:'FF512F',c2:'F09819'},
+  {id:'purple',name:'Purple Dream',c1:'c471f5',c2:'fa71cd'},
+  {id:'mint',name:'Mint Fresh',c1:'00F260',c2:'0575E6'},
+  {id:'rose',name:'Rose Gold',c1:'ED4264',c2:'FFEDBC'},
+  {id:'cyber',name:'Cyberpunk',c1:'08AEEA',c2:'2AF598'},
+  {id:'lava',name:'Lava Flow',c1:'C33764',c2:'1D2671'},
+  {id:'emerald',name:'Emerald Night',c1:'348F50',c2:'56B4D3'},
+  {id:'royal',name:'Royal Purple',c1:'360033',c2:'0b8793'},
+  {id:'candy',name:'Cotton Candy',c1:'FFA8B6',c2:'B490FF'},
+  {id:'neon',name:'Neon Life',c1:'B3FFAB',c2:'12FFF7'},
+  {id:'blood',name:'Blood Moon',c1:'8E0E00',c2:'1F1C18'},
+  {id:'ice',name:'Arctic Ice',c1:'E0EAFC',c2:'CFDEF3'},
+  {id:'forest',name:'Forest Dawn',c1:'5A3F37',c2:'2C7744'},
+  {id:'gold',name:'Golden Hour',c1:'FFE259',c2:'FFA751'},
+  {id:'space',name:'Deep Space',c1:'000000',c2:'434343'},
+  {id:'cherry',name:'Cherry Blossom',c1:'FBD3E9',c2:'BB377D'},
+  {id:'volt',name:'High Voltage',c1:'FEF200',c2:'FF6B00'},
+  {id:'toxic',name:'Toxic Waste',c1:'22C55E',c2:'581C87'},
+  {id:'galaxy',name:'Galaxy Edge',c1:'654EA3',c2:'EAAFC8'},
+  {id:'peach',name:'Peach Cream',c1:'FFE985',c2:'FA742B'},
+  {id:'berry',name:'Wild Berry',c1:'8E2DE2',c2:'4A00E0'},
+  {id:'coral',name:'Coral Reef',c1:'FF9A8B',c2:'FF6A88'},
+  {id:'steel',name:'Cold Steel',c1:'485563',c2:'29323c'},
+  {id:'amber',name:'Amber Glow',c1:'FF6F00',c2:'FFA000'},
+  {id:'lavender',name:'Lavender Sky',c1:'DDD6F3',c2:'FAACA8'},
+  {id:'lime',name:'Lime Light',c1:'A8E063',c2:'56AB2F'},
+  {id:'ruby',name:'Ruby Red',c1:'9D50BB',c2:'6E48AA'},
+  {id:'aqua',name:'Aqua Marine',c1:'1A2980',c2:'26D0CE'},
+  {id:'bronze',name:'Bronze Age',c1:'C94B4B',c2:'4B134F'},
+  {id:'pearl',name:'Pearl White',c1:'F3E5F5',c2:'E1BEE7'},
+  {id:'jungle',name:'Jungle Green',c1:'0B486B',c2:'F56217'},
+  {id:'noir',name:'Film Noir',c1:'434343',c2:'000000'},
+  {id:'sand',name:'Desert Sand',c1:'EDC967',c2:'C89B3C'},
+  {id:'sky',name:'Clear Sky',c1:'87CEEB',c2:'4682B4'},
+  {id:'plum',name:'Dark Plum',c1:'4A148C',c2:'880E4F'},
+  {id:'bronze2',name:'Warm Bronze',c1:'B7791F',c2:'D4AF37'},
+  {id:'storm',name:'Thunder Storm',c1:'373B44',c2:'4286f4'},
+  {id:'wine',name:'Red Wine',c1:'7F1734',c2:'C94B4B'},
+  {id:'olive',name:'Olive Grove',c1:'50622E',c2:'9FA85D'},
+  {id:'cobalt',name:'Cobalt Blue',c1:'0047AB',c2:'00BFFF'},
+  {id:'autumn',name:'Autumn Leaves',c1:'D38312',c2:'A83279'},
+  {id:'spring',name:'Spring Bloom',c1:'92FE9D',c2:'00C9FF'},
+  {id:'winter',name:'Winter Frost',c1:'E6DADA',c2:'274046'},
+  {id:'summer',name:'Summer Heat',c1:'FFD89B',c2:'19547B'},
+  {id:'dawn',name:'Morning Dawn',c1:'F3904F',c2:'3B4371'},
+  {id:'dusk',name:'Evening Dusk',c1:'2C3E50',c2:'FD746C'},
+  {id:'midnight',name:'Midnight Blue',c1:'020024',c2:'090979'},
+  {id:'blaze',name:'Phoenix Blaze',c1:'FF0099',c2:'493240'}
+];
+
+let gradLibOpen = false;
+
+function openGradLib(){
+  gradLibOpen = true;
+  document.getElementById('gradLibPanel').classList.add('open');
+  if(!document.getElementById('gradLibGrid').innerHTML){
+    renderGradientLibrary();
+  }
+}
+
+function closeGradLib(){
+  gradLibOpen = false;
+  document.getElementById('gradLibPanel').classList.remove('open');
+}
+
+function renderGradientLibrary(filter=''){
+  const grid = document.getElementById('gradLibGrid');
+  const filtered = filter ? 
+    GRADIENT_LIBRARY.filter(g => g.name.toLowerCase().includes(filter.toLowerCase())) :
+    GRADIENT_LIBRARY;
+  
+  grid.innerHTML = filtered.map(g => `
+    <div class="grad-item" onclick="applyGradientFromLib('${g.c1}','${g.c2}')">
+      <div class="grad-item-preview" style="background:linear-gradient(90deg,#${g.c1},#${g.c2})"></div>
+      <div class="grad-item-name">${g.name}</div>
+      <div class="grad-item-colors">#${g.c1} → #${g.c2}</div>
+    </div>
+  `).join('');
+}
+
+function searchGradients(query){
+  renderGradientLibrary(query);
+}
+
+function applyGradientFromLib(c1, c2){
+  document.getElementById('hex1').value = c1;
+  document.getElementById('color1').value = '#' + c1;
+  document.getElementById('hex2').value = c2;
+  document.getElementById('color2').value = '#' + c2;
+  updateBar();
+  closeGradLib();
+  showShortcutHint('Gradient applied! Press Ctrl+Enter to generate');
+}
+
+/* ══════════════════════════════════════════════════════════
+   LIVE PREVIEW with Debouncing
+   ══════════════════════════════════════════════════════════ */
+let livePreviewTimeout;
+let livePreviewEnabled = true;
+
+function setupLivePreview(){
+  const input = document.getElementById('textInput');
+  input.addEventListener('input', () => {
+    if(!livePreviewEnabled) return;
+    clearTimeout(livePreviewTimeout);
+    livePreviewTimeout = setTimeout(() => {
+      if(input.value.trim()){
+        generatePreview();
+      }
+    }, 400);
+  });
+}
+
+function generatePreview(){
+  // نفس منطق generate() لكن بدون عرض الرسائل
+  const text = document.getElementById('textInput').value.trim();
+  if(!text) return;
+  
+  let code = '';
+  if(useSingle){
+    const c1 = document.getElementById('hex1').value.toUpperCase();
+    code = `<c${c1}>${text}</c>`;
+  }else{
+    const baseColors = getColors(gradSteps);
+    const colors = applyMode(baseColors, gradMode);
+    const available = charLimit - 4;
+    let bestColors = 2;
+    for(let n = 2; n <= colors.length; n++){
+      const tagCost = n * 9;
+      const spaceLeft = available - tagCost;
+      if(spaceLeft >= text.length) bestColors = n;
+    }
+    const selectedColors = [];
+    for(let i = 0; i < bestColors; i++){
+      const idx = Math.round((i/(bestColors-1||1))*(colors.length-1));
+      selectedColors.push(colors[idx]);
+    }
+    const charsPerColor = Math.ceil(text.length/selectedColors.length);
+    let pos = 0;
+    selectedColors.forEach(color => {
+      if(pos >= text.length) return;
+      const chunk = text.substring(pos, Math.min(pos+charsPerColor, text.length));
+      code += `<c${color}>${chunk}`;
+      pos += chunk.length;
+    });
+    code += '</c>';
+  }
+  
+  // عرض في Preview
+  const preview = document.getElementById('previewArea');
+  if(preview){
+    preview.innerHTML = renderPreview(code);
+    // إضافة badge
+    if(!preview.querySelector('.live-preview-badge')){
+      const badge = document.createElement('div');
+      badge.className = 'live-preview-badge';
+      badge.textContent = 'Live';
+      preview.parentElement.style.position = 'relative';
+      preview.parentElement.insertBefore(badge, preview);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   HISTORY & FAVORITES
+   ══════════════════════════════════════════════════════════ */
+let historyOpen = false;
+let currentTab = 'history';
+
+function openHistory(){
+  historyOpen = true;
+  document.getElementById('historyPanel').classList.add('open');
+  loadHistory();
+}
+
+function closeHistory(){
+  historyOpen = false;
+  document.getElementById('historyPanel').classList.remove('open');
+}
+
+function switchHistoryTab(tab){
+  currentTab = tab;
+  document.getElementById('tabHistory').classList.toggle('active', tab === 'history');
+  document.getElementById('tabFavorites').classList.toggle('active', tab === 'favorites');
+  tab === 'history' ? loadHistory() : loadFavorites();
+}
+
+function loadHistory(){
+  const history = JSON.parse(localStorage.getItem('ha_history') || '[]');
+  const content = document.getElementById('historyContent');
+  
+  if(history.length === 0){
+    content.innerHTML = '<div class="history-empty">No history yet. Start creating!</div>';
+    return;
+  }
+  
+  content.innerHTML = history.slice(0, 10).map((item, i) => `
+    <div class="history-item" onclick="loadHistoryItem(${i})">
+      <div class="history-item-text">${escHtml(item.text)}</div>
+      <div class="history-item-grad" style="background:linear-gradient(90deg,#${item.c1},#${item.c2})"></div>
+      <div class="history-item-meta">
+        <span>${new Date(item.time).toLocaleDateString()}</span>
+        <button onclick="event.stopPropagation();addToFavorites(${i})" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;">⭐</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadFavorites(){
+  const favorites = JSON.parse(localStorage.getItem('ha_favorites') || '[]');
+  const content = document.getElementById('historyContent');
+  
+  if(favorites.length === 0){
+    content.innerHTML = '<div class="history-empty">No favorites yet. Star your best gradients!</div>';
+    return;
+  }
+  
+  content.innerHTML = favorites.map((item, i) => `
+    <div class="history-item" onclick="loadFavoriteItem(${i})">
+      <div class="history-item-text">${escHtml(item.text)}</div>
+      <div class="history-item-grad" style="background:linear-gradient(90deg,#${item.c1},#${item.c2})"></div>
+      <div class="history-item-meta">
+        <span>${item.name || 'Unnamed'}</span>
+        <button onclick="event.stopPropagation();removeFromFavorites(${i})" style="background:none;border:none;color:gold;cursor:pointer;font-size:1.2rem;">★</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveToHistory(text, c1, c2){
+  const history = JSON.parse(localStorage.getItem('ha_history') || '[]');
+  history.unshift({text, c1, c2, time: Date.now()});
+  localStorage.setItem('ha_history', JSON.stringify(history.slice(0, 50)));
+}
+
+function loadHistoryItem(index){
+  const history = JSON.parse(localStorage.getItem('ha_history') || '[]');
+  const item = history[index];
+  if(!item) return;
+  
+  document.getElementById('textInput').value = item.text;
+  document.getElementById('hex1').value = item.c1;
+  document.getElementById('color1').value = '#' + item.c1;
+  document.getElementById('hex2').value = item.c2;
+  document.getElementById('color2').value = '#' + item.c2;
+  updateBar();
+  closeHistory();
+}
+
+function addToFavorites(historyIndex){
+  const history = JSON.parse(localStorage.getItem('ha_history') || '[]');
+  const item = history[historyIndex];
+  if(!item) return;
+  
+  const favorites = JSON.parse(localStorage.getItem('ha_favorites') || '[]');
+  favorites.unshift(item);
+  localStorage.setItem('ha_favorites', JSON.stringify(favorites.slice(0, 20)));
+  showShortcutHint('Added to favorites!');
+}
+
+function loadFavoriteItem(index){
+  const favorites = JSON.parse(localStorage.getItem('ha_favorites') || '[]');
+  const item = favorites[index];
+  if(!item) return;
+  
+  document.getElementById('textInput').value = item.text;
+  document.getElementById('hex1').value = item.c1;
+  document.getElementById('color1').value = '#' + item.c1;
+  document.getElementById('hex2').value = item.c2;
+  document.getElementById('color2').value = '#' + item.c2;
+  updateBar();
+  closeHistory();
+}
+
+function removeFromFavorites(index){
+  const favorites = JSON.parse(localStorage.getItem('ha_favorites') || '[]');
+  favorites.splice(index, 1);
+  localStorage.setItem('ha_favorites', JSON.stringify(favorites));
+  loadFavorites();
+}
+
+/* ══════════════════════════════════════════════════════════
+   RANDOM GRADIENT GENERATOR
+   ══════════════════════════════════════════════════════════ */
+function randomGradient(){
+  const grad = GRADIENT_LIBRARY[Math.floor(Math.random() * GRADIENT_LIBRARY.length)];
+  document.getElementById('hex1').value = grad.c1;
+  document.getElementById('color1').value = '#' + grad.c1;
+  document.getElementById('hex2').value = grad.c2;
+  document.getElementById('color2').value = '#' + grad.c2;
+  updateBar();
+  showShortcutHint(`Random: ${grad.name}`);
+}
+
+/* ══════════════════════════════════════════════════════════
+   AI SUGGESTIONS (Rule-based)
+   ══════════════════════════════════════════════════════════ */
+const AI_KEYWORDS = {
+  fire:['fire','flame','hot','burn','lava'],
+  ice:['ice','cold','freeze','snow','winter'],
+  ocean:['ocean','sea','water','wave'],
+  sunset:['sunset','orange','evening'],
+  toxic:['toxic','poison','acid','neon'],
+  royal:['royal','king','queen','crown']
+};
+
+function getAISuggestion(text){
+  text = text.toLowerCase();
+  for(let [theme, keywords] of Object.entries(AI_KEYWORDS)){
+    if(keywords.some(k => text.includes(k))){
+      const grad = GRADIENT_LIBRARY.find(g => g.id === theme);
+      if(grad) return grad;
+    }
+  }
+  return null;
+}
+
+function applyAISuggestion(){
+  const text = document.getElementById('textInput').value;
+  const suggestion = getAISuggestion(text);
+  if(suggestion){
+    applyGradientFromLib(suggestion.c1, suggestion.c2);
+    showShortcutHint(`AI Suggestion: ${suggestion.name}`);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+   ══════════════════════════════════════════════════════════ */
+function setupKeyboardShortcuts(){
+  document.addEventListener('keydown', e => {
+    if(e.ctrlKey || e.metaKey){
+      switch(e.key.toLowerCase()){
+        case 'enter':
+          e.preventDefault();
+          if(_unlocked) generate();
+          else handleGenClick();
+          break;
+        case 'r':
+          e.preventDefault();
+          randomGradient();
+          break;
+        case 'h':
+          e.preventDefault();
+          historyOpen ? closeHistory() : openHistory();
+          break;
+        case 'l':
+          e.preventDefault();
+          gradLibOpen ? closeGradLib() : openGradLib();
+          break;
+        case 'k':
+          e.preventDefault();
+          showShortcutHint('Ctrl+Enter: Generate | Ctrl+R: Random | Ctrl+H: History | Ctrl+L: Library', 3000);
+          break;
+      }
+    }
+  });
+}
+
+function showShortcutHint(text, duration = 2000){
+  const hint = document.getElementById('shortcutsHint');
+  hint.innerHTML = text;
+  hint.classList.add('show');
+  setTimeout(() => hint.classList.remove('show'), duration);
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   INITIALIZATION
+   ══════════════════════════════════════════════════════════ */
+function initFeatures(){
+  setupLivePreview();
+  setupKeyboardShortcuts();
+}
+
+// Override original generate to add history
+const originalGenerate = window.generate;
+window.generate = function(){
+  originalGenerate.apply(this, arguments);
+  const text = document.getElementById('textInput').value.trim();
+  const c1 = document.getElementById('hex1').value;
+  const c2 = document.getElementById('hex2').value;
+  if(text) saveToHistory(text, c1, c2);
+};
+
+
+// Initialize all features
+initFeatures();
+
+
+/* ══════════════════════════════════════════════════════════
+   COLOR EXTRACTION FROM IMAGE
+   ══════════════════════════════════════════════════════════ */
+function initColorExtraction(){
+  // Add to settings panel
+  const settingsPanel = document.getElementById('settingsPanel');
+  if(!settingsPanel) return;
+  
+  const extractHTML = `
+    <div class="panel-item">
+      <div class="panel-label">Color Extraction</div>
+      <div class="extract-zone" id="extractZone" onclick="document.getElementById('imageUpload').click()">
+        <div id="extractContent">
+          <div style="font-size:2rem;margin-bottom:8px;">🖼️</div>
+          <div style="font-size:0.85rem;color:var(--text-primary);margin-bottom:4px;">Upload Image</div>
+          <div style="font-size:0.7rem;color:var(--text-muted);">Extract colors from any image</div>
+        </div>
+      </div>
+      <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="extractColors(this)">
+    </div>
+  `;
+  
+  settingsPanel.insertAdjacentHTML('beforeend', extractHTML);
+}
+
+function extractColors(input){
+  const file = input.files[0];
+  if(!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Resize للأداء
+      const maxSize = 200;
+      const scale = Math.min(maxSize / img.width, maxSize / img.height);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      
+      // استخراج ألوان مميزة
+      const colors = getDistinctColors(imageData.data);
+      displayExtractedColors(e.target.result, colors);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function getDistinctColors(pixels){
+  const colorMap = {};
+  
+  // Sample pixels
+  for(let i = 0; i < pixels.length; i += 40){
+    const r = pixels[i];
+    const g = pixels[i + 1];
+    const b = pixels[i + 2];
+    
+    // Skip very dark/light
+    const brightness = (r + g + b) / 3;
+    if(brightness < 30 || brightness > 240) continue;
+    
+    const hex = rgbToHex(r, g, b);
+    colorMap[hex] = (colorMap[hex] || 0) + 1;
+  }
+  
+  // Get top 5 colors
+  return Object.entries(colorMap)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([hex]) => hex);
+}
+
+function rgbToHex(r, g, b){
+  return [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
+function displayExtractedColors(imgSrc, colors){
+  const zone = document.getElementById('extractZone');
+  zone.classList.add('active');
+  
+  zone.innerHTML = `
+    <img src="${imgSrc}" class="extract-preview">
+    <div class="extract-colors">
+      ${colors.map(c => `<div class="extract-color" style="background:#${c}" onclick="applyExtractedColor('${c}')" title="#${c}"></div>`).join('')}
+    </div>
+  `;
+}
+
+function applyExtractedColor(hex){
+  if(!document.getElementById('hex2').value || confirm('Apply as end color?')){
+    document.getElementById('hex2').value = hex;
+    document.getElementById('color2').value = '#' + hex;
+  }else{
+    document.getElementById('hex1').value = hex;
+    document.getElementById('color1').value = '#' + hex;
+  }
+  updateBar();
+  showShortcutHint('Color applied!');
+}
+
+/* ══════════════════════════════════════════════════════════
+   GRADIENT MIXER
+   ══════════════════════════════════════════════════════════ */
+function initGradientMixer(){
+  const settingsPanel = document.getElementById('settingsPanel');
+  if(!settingsPanel) return;
+  
+  const mixerHTML = `
+    <div class="panel-item">
+      <div class="panel-label">Gradient Mixer</div>
+      <div class="mixer-container">
+        <div class="mixer-grad" id="mixerGrad1" onclick="selectMixerGrad(1)" style="background:linear-gradient(90deg,#FF6B6B,#FFE66D)"></div>
+        <div class="mixer-icon">+</div>
+        <div class="mixer-grad" id="mixerGrad2" onclick="selectMixerGrad(2)" style="background:linear-gradient(90deg,#4ECDC4,#556270)"></div>
+      </div>
+      <div class="mixer-slider-wrap">
+        <input type="range" id="mixerSlider" min="0" max="100" value="50" style="width:100%;" oninput="updateMixer()">
+        <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-muted);margin-top:4px;">
+          <span>100% A</span>
+          <span id="mixerPercent">50%</span>
+          <span>100% B</span>
+        </div>
+      </div>
+      <div class="mixer-result" id="mixerResult"></div>
+      <button class="tutorial-btn" onclick="applyMixedGradient()" style="width:100%;margin-top:12px;">Apply Mixed Gradient</button>
+    </div>
+  `;
+  
+  settingsPanel.insertAdjacentHTML('beforeend', mixerHTML);
+}
+
+let mixerGrad1 = {c1:'FF6B6B', c2:'FFE66D'};
+let mixerGrad2 = {c1:'4ECDC4', c2:'556270'};
+let mixerSelected = null;
+
+function selectMixerGrad(num){
+  mixerSelected = num;
+  document.getElementById('mixerGrad1').classList.toggle('selected', num === 1);
+  document.getElementById('mixerGrad2').classList.toggle('selected', num === 2);
+  
+  // Apply current colors
+  const c1 = document.getElementById('hex1').value;
+  const c2 = document.getElementById('hex2').value;
+  if(num === 1){
+    mixerGrad1 = {c1, c2};
+    document.getElementById('mixerGrad1').style.background = `linear-gradient(90deg,#${c1},#${c2})`;
+  }else{
+    mixerGrad2 = {c1, c2};
+    document.getElementById('mixerGrad2').style.background = `linear-gradient(90deg,#${c1},#${c2})`;
+  }
+  updateMixer();
+}
+
+function updateMixer(){
+  const percent = document.getElementById('mixerSlider').value;
+  document.getElementById('mixerPercent').textContent = percent + '%';
+  
+  const t = percent / 100;
+  const mixed1 = blendHex(mixerGrad1.c1, mixerGrad2.c1, t);
+  const mixed2 = blendHex(mixerGrad1.c2, mixerGrad2.c2, t);
+  
+  document.getElementById('mixerResult').style.background = 
+    `linear-gradient(90deg,#${mixed1},#${mixed2})`;
+}
+
+function blendHex(hex1, hex2, t){
+  const r1 = parseInt(hex1.slice(0,2), 16);
+  const g1 = parseInt(hex1.slice(2,4), 16);
+  const b1 = parseInt(hex1.slice(4,6), 16);
+  const r2 = parseInt(hex2.slice(0,2), 16);
+  const g2 = parseInt(hex2.slice(2,4), 16);
+  const b2 = parseInt(hex2.slice(4,6), 16);
+  
+  const r = Math.round(r1 + (r2 - r1) * t);
+  const g = Math.round(g1 + (g2 - g1) * t);
+  const b = Math.round(b1 + (b2 - b1) * t);
+  
+  return [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+
+function applyMixedGradient(){
+  const percent = document.getElementById('mixerSlider').value;
+  const t = percent / 100;
+  const c1 = blendHex(mixerGrad1.c1, mixerGrad2.c1, t);
+  const c2 = blendHex(mixerGrad1.c2, mixerGrad2.c2, t);
+  
+  document.getElementById('hex1').value = c1;
+  document.getElementById('color1').value = '#' + c1;
+  document.getElementById('hex2').value = c2;
+  document.getElementById('color2').value = '#' + c2;
+  updateBar();
+  showShortcutHint('Mixed gradient applied!');
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATION PREVIEW
+   ══════════════════════════════════════════════════════════ */
+const ANIMATIONS = [
+  {id:'none',name:'None',css:''},
+  {id:'shimmer',name:'Shimmer',css:'shimmer 3s linear infinite'},
+  {id:'pulse',name:'Pulse',css:'pulse 2s ease-in-out infinite'},
+  {id:'wave',name:'Wave',css:'wave 4s ease-in-out infinite'},
+  {id:'glow',name:'Glow',css:'glow 2s ease-in-out infinite'}
+];
+
+function initAnimationPreview(){
+  const outputSection = document.getElementById('outputSection');
+  if(!outputSection) return;
+  
+  // Add animation controls to preview
+  const observer = new MutationObserver(() => {
+    const preview = document.getElementById('previewArea');
+    if(preview && !preview.nextElementSibling?.classList.contains('anim-controls')){
+      addAnimationControls(preview);
+    }
+  });
+  
+  observer.observe(outputSection, {childList: true, subtree: true});
+}
+
+function addAnimationControls(preview){
+  const controls = document.createElement('div');
+  controls.className = 'anim-controls';
+  controls.innerHTML = ANIMATIONS.map(a => 
+    `<button class="anim-btn ${a.id === 'none' ? 'active' : ''}" onclick="applyAnimation('${a.id}', '${a.css}')" data-anim="${a.id}">${a.name}</button>`
+  ).join('');
+  
+  preview.parentElement.insertBefore(controls, preview.nextSibling);
+}
+
+function applyAnimation(id, css){
+  const preview = document.getElementById('previewArea');
+  if(!preview) return;
+  
+  // Remove all animation classes
+  preview.style.animation = css;
+  preview.style.backgroundSize = css.includes('wave') || css.includes('slide') ? '200% auto' : '';
+  
+  // Update buttons
+  document.querySelectorAll('.anim-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.anim === id);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE TOUCH GESTURES
+   ══════════════════════════════════════════════════════════ */
+function initMobileOptimizations(){
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  
+  document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+  
+  function handleSwipe(){
+    const diff = touchStartX - touchEndX;
+    
+    // Swipe left to open library
+    if(diff > 100 && !gradLibOpen && !historyOpen){
+      openGradLib();
+    }
+    // Swipe right to open history
+    else if(diff < -100 && !gradLibOpen && !historyOpen){
+      openHistory();
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   INITIALIZE ADVANCED FEATURES
+   ══════════════════════════════════════════════════════════ */
+function initAdvancedFeatures(){
+  initColorExtraction();
+  initGradientMixer();
+  initAnimationPreview();
+  initMobileOptimizations();
+}
+
+// Auto-init when DOM ready
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initAdvancedFeatures);
+}else{
+  initAdvancedFeatures();
+}
+
 </script>
+
+<!-- ══════════════════════════════════════════════════════════
+     GRADIENT LIBRARY PANEL
+     ══════════════════════════════════════════════════════════ -->
+<div class="grad-lib-panel" id="gradLibPanel">
+  <div class="grad-lib-header">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="grad-lib-title">Gradient Library</div>
+      <button onclick="closeGradLib()" style="background:none;border:none;color:var(--text-secondary);font-size:1.5rem;cursor:pointer;padding:0;">×</button>
+    </div>
+    <input type="text" class="grad-lib-search" id="gradLibSearch" placeholder="Search gradients..." oninput="searchGradients(this.value)">
+  </div>
+  <div class="grad-lib-grid" id="gradLibGrid"></div>
+</div>
+
+<button class="grad-lib-btn" onclick="openGradLib()" title="Gradient Library">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="3" y="3" width="7" height="7" rx="1"/>
+    <rect x="14" y="3" width="7" height="7" rx="1"/>
+    <rect x="3" y="14" width="7" height="7" rx="1"/>
+    <rect x="14" y="14" width="7" height="7" rx="1"/>
+  </svg>
+</button>
+
+<!-- ══════════════════════════════════════════════════════════
+     HISTORY & FAVORITES PANEL
+     ══════════════════════════════════════════════════════════ -->
+<div class="history-panel" id="historyPanel">
+  <div class="history-tabs">
+    <div class="history-tab active" onclick="switchHistoryTab('history')" id="tabHistory">History</div>
+    <div class="history-tab" onclick="switchHistoryTab('favorites')" id="tabFavorites">Favorites</div>
+  </div>
+  <div style="padding:16px;border-bottom:1px solid var(--border-primary);">
+    <button onclick="closeHistory()" style="width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:10px;color:var(--text-primary);font-size:0.75rem;font-weight:700;cursor:pointer;">Close</button>
+  </div>
+  <div class="history-content" id="historyContent"></div>
+</div>
+
+<div class="fab-group">
+  <button class="fab" onclick="openHistory()" title="History & Favorites">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  </button>
+  <button class="fab" onclick="randomGradient()" title="Random Gradient (Ctrl+R)">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <path d="M21 12h-8m0 0V4m0 8l7-7M3 12h8m0 0v8m0-8l-7 7"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Keyboard Shortcuts Hint -->
+<div class="shortcuts-hint" id="shortcutsHint"></div>
+
 </body>
 </html>
