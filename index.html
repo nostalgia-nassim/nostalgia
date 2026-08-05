@@ -429,9 +429,176 @@ body.light-mode .sb-footer{border-top-color:rgba(0,0,0,0.06);}
 .shortcuts-hint.show{opacity:1;}
 .kbd{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;padding:2px 6px;font-family:monospace;font-size:0.7rem;margin:0 2px;}
 
+/* ══════════════════════════════════════════════════════════
+   ENTRY GATE (login overlay) — added on top, original code untouched
+   ══════════════════════════════════════════════════════════ */
+#entryGate{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0a0700 0%,#000 55%,#0a0700 100%);
+  overflow:hidden;
+}
+/* Two blurred glow blobs, animated purely with transform (GPU-composited, no repaint) */
+#entryGate::before,#entryGate::after{
+  content:'';position:absolute;pointer-events:none;
+  width:70vmax;height:70vmax;border-radius:50%;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+  filter:blur(40px);
+}
+#entryGate::before{
+  top:-20vmax;left:-15vmax;
+  background:radial-gradient(circle,rgba(212,160,23,0.22) 0%,transparent 65%);
+  animation:gateFloat1 16s ease-in-out infinite;
+}
+#entryGate::after{
+  bottom:-25vmax;right:-15vmax;
+  background:radial-gradient(circle,rgba(251,191,36,0.16) 0%,transparent 65%);
+  animation:gateFloat2 20s ease-in-out infinite;
+}
+@keyframes gateFloat1{
+  0%,100%{transform:translate3d(0,0,0) scale(1);}
+  50%{transform:translate3d(6vmax,8vmax,0) scale(1.15);}
+}
+@keyframes gateFloat2{
+  0%,100%{transform:translate3d(0,0,0) scale(1);}
+  50%{transform:translate3d(-6vmax,-6vmax,0) scale(1.15);}
+}
+.gate-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(212,160,23,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(212,160,23,0.05) 1px,transparent 1px);
+  background-size:70px 70px;
+}
+.gate-box{
+  position:relative;z-index:1;width:100%;max-width:360px;margin:0 24px;
+  text-align:center;
+  animation:gateFadeUp 0.8s ease-out forwards;
+}
+@keyframes gateFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.gate-crown{
+  font-size:2.2rem;line-height:1;margin-bottom:14px;
+  background:linear-gradient(135deg,#fff 0%,#D4A017 38%,#fbbf24 65%,#fff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+.gate-title{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:1.6rem;letter-spacing:0.08em;
+  background:linear-gradient(135deg,#fff 0%,#D4A017 38%,#fbbf24 65%,#fff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 6s linear infinite;
+  margin-bottom:6px;
+}
+.gate-sub{
+  font-size:0.6rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;
+  color:rgba(212,160,23,0.55);margin-bottom:34px;
+}
+.gate-input-wrap{position:relative;}
+#gatePassInput{
+  width:100%;background:rgba(212,160,23,0.05);
+  border:1px solid rgba(212,160,23,0.3);
+  border-radius:3px;padding:16px 18px;
+  color:#fff;font-family:'Inter',sans-serif;font-size:0.95rem;
+  letter-spacing:0.3em;text-align:center;outline:none;
+  transition:border-color 0.25s,background 0.25s,box-shadow 0.25s;
+}
+#gatePassInput::placeholder{color:rgba(255,255,255,0.2);letter-spacing:0.15em;}
+#gatePassInput:focus{
+  border-color:rgba(251,191,36,0.7);
+  background:rgba(212,160,23,0.09);
+  box-shadow:0 0 22px rgba(212,160,23,0.18);
+}
+#gatePassInput.shake{
+  border-color:rgba(255,70,70,0.75) !important;
+  animation:gateShake 0.4s;
+}
+@keyframes gateShake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(5px);}
+}
+.gate-hint{
+  display:block;min-height:14px;margin-top:14px;
+  font-size:0.6rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+}
+.gate-hint.err{color:rgba(255,110,110,0.85);}
+#entryGate.gate-hidden{
+  opacity:0;pointer-events:none;
+  transition:opacity 0.6s ease;
+}
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════════════════════
+     ENTRY GATE — sits on top of everything, blocks page until
+     the correct password is entered. Nothing below was modified.
+     ══════════════════════════════════════════════════════════ -->
+<div id="entryGate">
+  <div class="gate-grid"></div>
+  <div class="gate-box">
+    <div class="gate-crown">♔</div>
+    <div class="gate-title">HA-NASSIM</div>
+    <div class="gate-sub">Private Access</div>
+    <div class="gate-input-wrap">
+      <input type="password" id="gatePassInput" placeholder="Password" autocomplete="off" autofocus>
+    </div>
+    <span class="gate-hint" id="gateHint"></span>
+  </div>
+</div>
+<script>
+(function(){
+  var GATE_PASSWORD = 'nass1m';
+  var input = document.getElementById('gatePassInput');
+  var gate  = document.getElementById('entryGate');
+  var hint  = document.getElementById('gateHint');
+
+  function unlock(){
+    gate.classList.add('gate-hidden');
+    setTimeout(function(){ gate.remove(); }, 650);
+    document.removeEventListener('keydown', blockKeys, true);
+  }
+
+  function tryPass(){
+    if(input.value === GATE_PASSWORD){
+      unlock();
+    }else if(input.value.length > 0){
+      input.classList.add('shake');
+      hint.textContent = 'Incorrect password';
+      hint.classList.add('err');
+      setTimeout(function(){
+        input.classList.remove('shake');
+      }, 400);
+    }else{
+      hint.textContent = '';
+      hint.classList.remove('err');
+    }
+  }
+
+  input.addEventListener('input', tryPass);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryPass();
+  });
+
+  // Prevent interacting with / tabbing into the page underneath while locked
+  function blockKeys(e){
+    if(gate && document.body.contains(gate) && e.target !== input && e.key === 'Tab'){
+      e.preventDefault();
+    }
+  }
+  document.addEventListener('keydown', blockKeys, true);
+
+  window.addEventListener('load', function(){ input.focus(); });
+})();
+</script>
+
 <div class="premium-bg"></div>
 <div class="luxury-grid"></div>
 <div class="mouse-glow" id="mouseGlow"></div>
